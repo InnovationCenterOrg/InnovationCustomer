@@ -1,0 +1,154 @@
+package com.ibm.innovationcustomer.manager;
+
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.Date;
+import java.util.logging.Logger;
+
+import javax.annotation.Resource;
+import javax.ejb.LocalBean;
+import javax.ejb.Stateless;
+import javax.sql.DataSource;
+
+import com.ibm.innovationcustomer.model.ProfileUserModel;
+
+@Stateless
+@LocalBean
+public class ProfileUserManager {
+
+	private static final Logger log = Logger.getLogger(ProfileUserManager.class.getName()); 
+	
+	@Resource(lookup = "jdbc/InnovationDatabase")
+	DataSource ds;
+
+	Connection connection = null;
+	PreparedStatement pstmt = null;
+	
+	public ProfileUserManager(){
+		
+	}
+	
+	public ProfileUserModel authen(String username, String password){
+		log.info("Authentication Method");
+		String sql = "select * from profile_user where pro_username = ? and pro_password = ?";
+		try{
+			log.info("START QUERY");
+			connection = ds.getConnection();
+			pstmt = connection.prepareStatement(sql);
+			
+			ResultSet result = pstmt.executeQuery();
+		
+			ProfileUserModel user = null;
+			while(result.next()){
+				log.info("FOUND User");
+				user = new ProfileUserModel();
+				user.setProId(result.getInt("pro_id"));
+				user.setProFirstName(result.getString("pro_firstname"));
+				user.setProLastName(result.getString("pro_lastname"));
+				user.setProFullName(result.getString("pro_fullname"));
+				user.setProCompanyName(result.getString("pro_company_name"));
+				user.setProContactNo(result.getString("pro_contact_no"));
+				user.setProEmail(result.getString("pro_email"));
+				user.setProPassword(result.getString("pro_password"));
+				user.setProRole(result.getString("pro_role"));				
+				log.info("PRO_ID : "+user.getProId());
+			}
+			
+			pstmt.close();
+			return user;
+			
+		}catch(SQLException e1){
+			log.info("SQL ERROR : "+e1.getMessage());
+			return null;
+		}catch(Exception e2){
+			log.info("ERROR : "+e2.getMessage());
+			return null;
+		}
+		
+	}
+	
+	public ProfileUserModel createNewProfileUser(String proFirstName, String proLastName, String proFullName, String proCompanyName, String proContactNo, String proEmail, String proPassword, String proRole){
+		
+		ProfileUserModel profile = null;
+		
+		String sql = "insert into profile_user (pro_firstname, pro_lastname, pro_fullname, pro_company_name, pro_contact_no, pro_email, pro_password, pro_role, pro_create_date, pro_update_date values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+		try{
+			log.info("START QUERY");
+			connection = ds.getConnection();
+			pstmt = connection.prepareStatement(sql);
+			
+			pstmt.setString(1, "");
+			
+			
+			int results = pstmt.executeUpdate();
+			
+			
+		}catch(SQLException e1){
+			log.info("SQL ERROR : "+e1.getMessage());
+		}catch(Exception e2){
+			log.info("ERROR : "+e2.getMessage());
+		}
+		
+		
+		private Integer proId;
+		private String proFirstName;
+		private String proLastName;
+		private String proFullName;
+		private String proCompanyName;
+		private String proContactNo;
+		private String proEmail;
+		
+		private String proPassword;
+		private String proRole;
+		private Date proCreateDate;
+		private Date proUpdateDate;
+		
+		return profile;
+	}
+	
+	
+		
+		//
+//		String insertsql = "insert into event (eve_name, eve_description, eve_start_date, eve_end_date, eve_location, eve_status) values ('IBM Innovation Center Soft Grand Opening Rehearsal', 'IBM Innovation Center Soft Grand Opening Rehearsal for IBMer', '2016-01-20 09:00:00', '2016-01-20 16:30:00', 'G Floor, IBM Building', 'active') ";
+//		log.info("START HERE ");
+//		connection = ds.getConnection();
+//		pstmt = connection.prepareStatement(insertsql);
+//		try{
+//			int statementresult = pstmt.executeUpdate();
+//			log.info("RUNNING SUCCESS "+statementresult);
+//		}catch(Exception e){
+//			log.info("ERROR ");
+//			log.info(e.getMessage());
+//		}
+		//
+		
+//		String sql = "select pro_fullname from profile_user where pro_id = 1";
+//		String fullName = null;
+//		try {
+//			log.info("START HERE ");
+//			connection = ds.getConnection();
+//			pstmt = connection.prepareStatement(sql);
+//			
+//			ResultSet rset = pstmt.executeQuery();
+//			log.info("Start Perform SQL Statement");
+//			while(rset.next()){
+//				
+//				fullName = rset.getString("pro_fullname");	
+//				log.info("FOUND!! ");
+//			}
+//			log.info("Finish Perform SQL Statement");
+//			pstmt.close();
+//			if(fullName!=null){
+//				System.out.println("Profile Name is "+fullName);
+//			}else{
+//				System.out.println("Profile not found");
+//			}
+//		} catch (SQLException e) {
+//			
+//		}
+//		return "";
+	
+	
+}

@@ -1,0 +1,198 @@
+package com.ibm.innovationcustomer.manager;
+
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.List;
+import java.util.logging.Logger;
+
+import javax.annotation.Resource;
+import javax.ejb.LocalBean;
+import javax.ejb.Stateless;
+import javax.sql.DataSource;
+
+import com.ibm.innovationcustomer.constants.CommonConstants;
+import com.ibm.innovationcustomer.model.EventModel;
+
+@Stateless
+@LocalBean
+public class EventManager {
+
+	
+	private static final Logger log = Logger.getLogger(EventManager.class.getName()); 
+	
+	@Resource(lookup = "jdbc/InnovationDatabase")
+	DataSource ds;
+
+	Connection connection = null;
+	PreparedStatement pstmt = null;
+	SimpleDateFormat dateTimeFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+	SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+	
+	public EventManager(){
+		
+	}
+	
+	//Create
+	public String createNewEvent(String eveName, String eveDescription, String eveLocation, Date eveStartDate, Date eveEndDate, String evePicturePath, String eveStatus){
+		String sql = "insert into event (eve_name, eve_description, eve_location, eve_start_date, eve_end_date, eve_picture_path, eve_status, eve_create_date, eve_update_date) values(?,?,?,?,?,?,?,?,?)";
+		Date currentDateTime = new Date();
+		try{
+			connection = ds.getConnection();
+			pstmt = connection.prepareStatement(sql);
+			
+			pstmt.setString(1, eveName);
+			pstmt.setString(2, eveDescription);
+			pstmt.setString(3, eveLocation);
+			pstmt.setString(4, dateTimeFormat.format(eveStartDate));
+			pstmt.setString(5, dateTimeFormat.format(eveEndDate));
+			pstmt.setString(6, evePicturePath);
+			pstmt.setString(7, eveStatus);
+			pstmt.setString(8, dateTimeFormat.format(currentDateTime));
+			pstmt.setString(9, dateTimeFormat.format(currentDateTime));
+			
+			int result = pstmt.executeUpdate();
+			connection.close();
+			
+			if(result > 0){
+				return CommonConstants.RETURN_SUCCESS;
+			}
+			
+		}catch(SQLException e1){
+			log.info("SQL ERROR : "+e1.getMessage());
+		}catch(Exception e2){
+			log.info("ERROR : "+e2.getMessage());
+		}
+		return CommonConstants.RETURN_FAIL;
+		
+	}
+	
+	//Update Information
+	public String updateEvent(Integer eveId, String eveName, String eveDescription, String eveLocation, Date eveStartDate, Date eveEndDate, String evePicturePath, String eveStatus){
+		String sql = "update event set eve_name=?, eve_description=?, eve_location=?, eve_start_date=?, eve_end_date=?, eve_picture_path=?, eve_status=?, eve_update_date=? where eve_id=?";
+		Date currentDateTime = new Date();
+		try{
+			connection = ds.getConnection();
+			pstmt = connection.prepareStatement(sql);
+
+			pstmt.setString(1, eveName);
+			pstmt.setString(2, eveDescription);
+			pstmt.setString(3, eveLocation);
+			pstmt.setString(4, dateTimeFormat.format(eveStartDate));
+			pstmt.setString(5, dateTimeFormat.format(eveEndDate));
+			pstmt.setString(6, evePicturePath);
+			pstmt.setString(7, eveStatus);
+			pstmt.setString(8, dateTimeFormat.format(currentDateTime));
+			pstmt.setInt(9, eveId.intValue());
+			
+			int result = pstmt.executeUpdate();
+			connection.close();
+			
+			if(result > 0){
+				return CommonConstants.RETURN_SUCCESS;
+			}
+			
+		}catch(SQLException e1){
+			log.info("SQL ERROR : "+e1.getMessage());
+		}catch(Exception e2){
+			log.info("ERROR : "+e2.getMessage());
+		}
+		
+		return CommonConstants.RETURN_FAIL;
+		
+	}
+	
+	public String updateStatus(Integer eveId, String eveStatus){
+		String sql = "update event set eve_status=?, eve_update_date=? where eve_id=?";
+		Date currentDateTime = new Date();
+		try{
+			connection = ds.getConnection();
+			pstmt = connection.prepareStatement(sql);
+			
+			pstmt.setString(1, eveStatus);
+			pstmt.setString(2, dateTimeFormat.format(currentDateTime));
+			pstmt.setInt(3, eveId.intValue());
+			
+			int result = pstmt.executeUpdate();
+			connection.close();
+			
+			if(result > 0){
+				return CommonConstants.RETURN_SUCCESS;
+			}
+			
+			
+		}catch(SQLException e1){
+			log.info("SQL ERROR : "+e1.getMessage());
+		}catch(Exception e2){
+			log.info("ERROR : "+e2.getMessage());
+		}
+		
+		return CommonConstants.RETURN_FAIL;
+		
+	}
+	
+	
+	
+	
+	
+	//Search by crietria (eventName, eventStartDate, eventStatus)
+	public List<EventModel> getEventList(String eveName, Date eveStartDate, String eveStatus){
+		List<EventModel> resultList = null;
+		StringBuffer sqlBuffer = new StringBuffer();
+		sqlBuffer.append("select * from event where eve_id <> 0 ");
+		if(eveName != null && !eveName.equals("")){
+			sqlBuffer.append("and eveName like ? ");
+		}
+		
+		if(eveStartDate != null){
+			sqlBuffer.append("and eveStartDate like ? ");
+		}
+		
+		if(eveStatus != null && !eveStatus.equals("")){
+			sqlBuffer.append("and eveStatus = ? ");
+		}
+		
+		sqlBuffer.append("order by eveName, eveStartDate ");
+		
+		try{
+			connection = ds.getConnection();
+			pstmt = connection.prepareStatement(sqlBuffer.toString());
+			int runningParam = 1;
+			
+			if(eveName != null && !eveName.equals("")){
+				pstmt.setString(runningParam, "%"+eveName+"%");
+				runningParam += 1;
+			}
+			if(eveStartDate != null){
+				pstmt.setString(runningParam, "%"+dateFormat.format(eveStartDate));
+				runningParam += 1;
+			}
+			
+			if(eveStatus != null && !eveStatus.equals("")){
+				pstmt.setString(runningParam, eveStatus);
+			}
+			
+			ResultSet results = pstmt.executeQuery();
+			
+			//***
+			
+		}catch(SQLException e1){
+			log.info("SQL ERROR : "+e1.getMessage());
+		}catch(Exception e2){
+			log.info("ERROR : "+e2.getMessage());
+		}
+		
+		
+		
+		
+		
+		
+		
+		return resultList;
+	}
+	
+	
+}

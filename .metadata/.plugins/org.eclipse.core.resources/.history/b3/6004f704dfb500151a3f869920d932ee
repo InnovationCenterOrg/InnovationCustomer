@@ -1,0 +1,14 @@
+package com.ibm.innovationcustomer.model;
+
+import java.util.Date;
+
+public class LuckyDrawModel {
+
+	private Integer lucId;
+	private Integer lucEveId;
+	private Integer lucLuckyNo;
+	private Integer lucReeId;
+	private String lucStatus;
+	private Date lucCreateDate;
+	
+}

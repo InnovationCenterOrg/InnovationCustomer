@@ -1,0 +1,22 @@
+package com.ibm.innovationcustomer.model;
+
+import java.util.Date;
+
+public class EventModel {
+
+	private Integer eveId;
+	private String eveName;
+	private String eveDescription;
+	private String eveLocation;
+	private String eveDuration;
+	private Date eveStartDate;
+	private Date eveEndDate;
+	private String evePicturePath;
+	private String eveStatus;
+	private Date eveCreateDate;
+	private Date eveUpdateDate;
+	
+	
+	
+	
+}

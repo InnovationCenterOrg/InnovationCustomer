@@ -1,0 +1,70 @@
+package com.ibm.innovationcustomer.manager;
+
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.logging.Logger;
+
+import javax.annotation.Resource;
+import javax.ejb.LocalBean;
+import javax.ejb.Stateless;
+import javax.sql.DataSource;
+
+import com.ibm.innovationcustomer.constants.CommonConstants;
+
+@Stateless
+@LocalBean
+public class EventManager {
+
+	
+	private static final Logger log = Logger.getLogger(EventManager.class.getName()); 
+	
+	@Resource(lookup = "jdbc/InnovationDatabase")
+	DataSource ds;
+
+	Connection connection = null;
+	PreparedStatement pstmt = null;
+	SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+	
+	public EventManager(){
+		
+	}
+	
+	//Create
+	public String createNewEvent(String eveName, String eveDescription, String eveLocation, Date eveStartDate, Date eveEndDate, String evePicturePath, String eveStatus){
+		String sql = "insert into event (eve_name, eve_description, eve_location, eve_start_date, eve_end_date, eve_picture_path, eve_status, eve_create_date, eve_update_date) values(?,?,?,?,?,?,?,?,?)";
+		Date currentDateTime = new Date();
+		try{
+			connection = ds.getConnection();
+			pstmt = connection.prepareStatement(sql);
+			
+			pstmt.setString(1, eveName);
+			pstmt.setString(2, eveDescription);
+			pstmt.setString(3, eveLocation);
+			pstmt.setString(4, dateFormat.format(eveStartDate));
+			pstmt.setString(5, dateFormat.format(eveEndDate));
+			pstmt.setString(6, evePicturePath);
+			pstmt.setString(7, eveStatus);
+			pstmt.setString(8, dateFormat.format(currentDateTime));
+			pstmt.setString(9, dateFormat.format(currentDateTime));
+			
+			int result = pstmt.executeUpdate();
+			connection.close();
+			
+			if(result > 0){
+				return CommonConstants.RETURN_SUCCESS;
+			}
+			
+		}catch(SQLException e1){
+			log.info("SQL ERROR : "+e1.getMessage());
+		}catch(Exception e2){
+			log.info("ERROR : "+e2.getMessage());
+		}
+		return CommonConstants.RETURN_FAIL;
+		
+		
+		
+	}
+}

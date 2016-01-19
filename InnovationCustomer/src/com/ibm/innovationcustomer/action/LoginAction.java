@@ -14,7 +14,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.sql.DataSource;
 
-import com.ibm.innovationcustomer.manager.AuthenticationManager;
+import com.ibm.innovationcustomer.manager.ProfileUserManager;
+import com.ibm.innovationcustomer.model.ProfileUserModel;
 
 
 public class LoginAction extends HttpServlet {
@@ -28,7 +29,7 @@ public class LoginAction extends HttpServlet {
 	DataSource ds;
 	
 	@EJB
-	private AuthenticationManager authenManager;
+	private ProfileUserManager profileUserManager;
 	
 	private static final Logger log = Logger.getLogger(LoginAction.class.getName()); 
 
@@ -42,8 +43,22 @@ public class LoginAction extends HttpServlet {
 	protected void doPost(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
 		log.info("TEST DOPOST");
-		String fullName = authenManager.authen();
-		String forwardUrl = "/home.jsp?test="+fullName;
+		ProfileUserModel currentUser = null;
+		
+		String tmp = profileUserManager.updateProfileUserById(1, "Pannray", "Samanphanchai", "Pannray Samanphanchai", "IBMSD", "0867059235", "p.joyjung@gmail.com", "pannrays", "P@ssw0rd");
+		ProfileUserModel user = profileUserManager.getProfileUserById(1);
+		if(user != null){
+			log.info("FOUND USER");
+			log.info("FULLNAME : "+user.getProFullName());
+			log.info("COMPANY NAME : "+user.getProCompanyName());
+		}
+		log.info("RESULT DUPLICATE : "+profileUserManager.isDuplicateUsername("pannrays"));
+		
+		//		String tmp = profileUserManager.createNewProfileUser("Pannray", "Samanphanchai", "Pannray Samanphanchai", "IBMSD", "0867059235", "p.joyjung@gmail.com", "pannrays", "P@ssw0rd", "Customer");
+		String forwardUrl = "/home.jsp";
+//		if(currentUser != null){
+//			forwardUrl = "/home.jsp?test="+currentUser.getProFullName();
+//		}
 
 		request.getRequestDispatcher(forwardUrl).forward(request, response);
 	}

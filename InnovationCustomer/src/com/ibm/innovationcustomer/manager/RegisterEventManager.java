@@ -1,5 +1,157 @@
 package com.ibm.innovationcustomer.manager;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.List;
+import java.util.Random;
+import java.util.logging.Logger;
+
+import javax.annotation.Resource;
+import javax.ejb.LocalBean;
+import javax.ejb.Stateless;
+import javax.sql.DataSource;
+
+import com.ibm.innovationcustomer.constants.CommonConstants;
+import com.ibm.innovationcustomer.model.RegisterEventModel;
+
+@Stateless
+@LocalBean
 public class RegisterEventManager {
 
+	private static final Logger log = Logger.getLogger(RegisterEventManager.class.getName()); 
+	
+	@Resource(lookup = "jdbc/InnovationDatabase")
+	DataSource ds;
+
+	Connection connection = null;
+	PreparedStatement pstmt = null;
+	SimpleDateFormat dateTimeFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+	SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+	
+	public RegisterEventManager(){
+
+	}
+
+	//Create
+	public String createNewRegisterEvent(Integer reeEveId, Integer reeProId){
+		String sql = "insert into register_event (ree_eve_id, ree_pro_id, ree_lucky_no, ree_got_prize_flag, ree_register_date, ree_create_date, ree_update_date) values (?,?,?,?,?,?,?) ";
+		Date currentDateTime = new Date();
+		try{
+			connection = ds.getConnection();
+			pstmt = connection.prepareStatement(sql);
+			pstmt.setInt(1, reeEveId);
+			pstmt.setInt(2, reeProId);
+			pstmt.setInt(3, CommonConstants.DEFAULT_INT_VALUE); //First time create registerevent, not generate lucky no. --> set to 0
+			pstmt.setString(4, CommonConstants.FLAG_N);
+			pstmt.setString(5, dateTimeFormat.format(currentDateTime));
+			pstmt.setString(6, dateTimeFormat.format(currentDateTime));
+			pstmt.setString(7, dateTimeFormat.format(currentDateTime));
+			
+			int result = pstmt.executeUpdate();
+			connection.close();
+			
+			if(result > 0){
+				return CommonConstants.RETURN_SUCCESS;
+			}
+			
+			
+		}catch(SQLException e1){
+			log.info("SQL ERROR : "+e1.getMessage());
+		}catch(Exception e2){
+			log.info("ERROR : "+e2.getMessage());
+		}
+		
+		return CommonConstants.RETURN_FAIL;
+	}
+	
+	
+	//Update
+	public String updateRegisterEventLuckyNo(Integer reeId, int luckyno){
+		String sql = "update register_event set ree_lucky_no=?, set ree_update_date=? where ree_id = ? ";
+		try{
+			connection = ds.getConnection();
+			pstmt = connection.prepareStatement(sql);
+			
+			pstmt.setInt(1, luckyno);
+			pstmt.setString(2, dateTimeFormat.format(new Date()));
+			pstmt.setInt(3, reeId.intValue());
+			
+			int result = pstmt.executeUpdate();
+			connection.close();
+			if(result > 0){
+				return CommonConstants.RETURN_SUCCESS;
+			}
+			
+			
+		}catch(SQLException e1){
+			log.info("SQL ERROR : "+e1.getMessage());
+		}catch(Exception e2){
+			log.info("ERROR : "+e2.getMessage());
+		}
+		
+		return CommonConstants.RETURN_FAIL;
+	}
+	
+	
+	public boolean isDuplicateLuckyNo(Integer reeEveId, int luckyNo){
+		
+		String sql = "select * from register_event where ree_eve_id = ? and ree_lucky_no = ? ";
+		boolean result = true;
+		try{
+			
+			connection = ds.getConnection();
+			pstmt = connection.prepareStatement(sql);
+			
+			pstmt.setInt(1, reeEveId.intValue());
+			pstmt.setInt(2, luckyNo);
+			
+			ResultSet rs = pstmt.executeQuery();
+			while(rs.next()){
+				result = true;
+			}
+			
+			connection.close();
+			return result;
+			
+		}catch(SQLException e1){
+			log.info("SQL ERROR : "+e1.getMessage());
+		}catch(Exception e2){
+			log.info("ERROR : "+e2.getMessage());
+		}
+		
+		return result;
+	}
+	
+	public int generateLuckyNo(){
+
+		Random random = new Random();
+		int n = 100 + random.nextInt(900); //Generate 3 random digits
+		
+		return n;
+	}
+
+//	public List<RegisterEventModel> getListByEveId(Integer eveId){
+//	List<RegisterEventModel> resultList = null;
+//	String sql = "";
+//	try{
+//		connection = ds.getConnection();
+//		pstmt = connection.prepareStatement(sql);
+//		
+//		connection.close();
+//		
+//	}catch(SQLException e1){
+//		log.info("SQL ERROR : "+e1.getMessage());
+//	}catch(Exception e2){
+//		log.info("ERROR : "+e2.getMessage());
+//	}
+//	
+//	return resultList;
+//	
+//	}
+	
+	
 }

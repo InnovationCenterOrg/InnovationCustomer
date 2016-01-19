@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<archive>
+    <archive targetInArchive="/InnovationCustomer.war">
+        <dir sourceOnDisk="/Users/pannrays/IBM Project/InnovationCustomerOnGit/InnovationCustomer/WebContent" targetInArchive="/"/>
+    </archive>
+    <dir sourceOnDisk="/Users/pannrays/IBM Project/InnovationCustomerOnGit/InnovationCustomerEAR" targetInArchive="/"/>
+</archive>
