@@ -1,0 +1,5 @@
+package com.ibm.innovationcustomer.manager;
+
+public class SendGridManager {
+
+}

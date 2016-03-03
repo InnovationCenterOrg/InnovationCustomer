@@ -135,15 +135,71 @@ public class EventManager {
 		
 	}
 	
-	
-	
+	//Unused --> Move to RegisterEventManager Class
+	public EventModel updateRegisterUser(Integer eveId, Integer currentRegisterUser){
+		String updateSql = "update event set eve_register_user = ? where eve_id = ? ";
+		Integer toBeRegisterUser = currentRegisterUser+1;
+		try{
+			connection = ds.getConnection();
+			pstmt = connection.prepareStatement(updateSql);
+			pstmt.setInt(1, toBeRegisterUser);
+			pstmt.setInt(2, eveId);
+			
+			int result = pstmt.executeUpdate();
+			
+			if(result > 0){
+				//Success
+				String querySql = "select * from event where eve_id = ? ";
+				EventModel event = null;
+				try{
+					PreparedStatement pstmtQuery = connection.prepareStatement(querySql);
+					pstmtQuery.setInt(1, eveId.intValue());
+					ResultSet results = pstmtQuery.executeQuery();
+					
+					while(results.next()){
+						event = new EventModel();
+						event.setEveId(results.getInt("eve_id"));
+						event.setEveName(results.getString("eve_name"));
+						event.setEveDescription(results.getString("eve_description"));
+						event.setEveLocation(results.getString("eve_location"));
+						event.setEveStartDate(dateTimeFormat.parse(results.getString("eve_start_date")));
+						event.setEveEndDate(dateTimeFormat.parse(results.getString("eve_end_date")));
+						event.setEveRegisterUser(results.getInt("eve_register_user"));
+						event.setEvePicturePath(results.getString("eve_picture_path"));
+						event.setEveStatus(results.getString("eve_status"));
+						event.setEveCreateDate(dateTimeFormat.parse(results.getString("eve_create_date")));
+						event.setEveUpdateDate(dateTimeFormat.parse(results.getString("eve_update_date")));
+						
+					}
+					
+					connection.close();
+					return event;
+					
+				}catch(Exception e0){
+					connection.close();
+					throw new Exception();
+				}
+			}else{
+				connection.close();
+				return null;
+			}
+
+		}catch(SQLException e1){
+			log.info("SQL ERROR : "+e1.getMessage());
+		}catch(Exception e2){
+			log.info("ERROR : "+e2.getMessage());
+		}
+		return null;
+	}
 	
 	
 	//Search by crietria (eventName, eventStartDate, eventStatus)
 	public List<EventModel> getEventList(String eveName, Date eveStartDate, String eveStatus){
 		List<EventModel> resultList = null;
 		StringBuffer sqlBuffer = new StringBuffer();
+		log.info("1");
 		sqlBuffer.append("select * from event where eve_id <> 0 ");
+		log.info("2");
 		if(eveName != null && !eveName.equals("")){
 			sqlBuffer.append("and eveName like ? ");
 		}
@@ -159,7 +215,9 @@ public class EventManager {
 		sqlBuffer.append("order by eveName, eveStartDate ");
 		
 		try{
+			log.info("3");
 			connection = ds.getConnection();
+			log.info("4");
 			pstmt = connection.prepareStatement(sqlBuffer.toString());
 			int runningParam = 1;
 			
@@ -216,9 +274,10 @@ public class EventManager {
 			connection = ds.getConnection();
 			pstmt = connection.prepareStatement(sql);
 			pstmt.setInt(1, eveId.intValue());
-			
+			log.info("QUERY: "+pstmt.toString());
 			ResultSet results = pstmt.executeQuery();
 			while(results.next()){
+				log.info("FOUND EVENT");
 				event = new EventModel();
 				event.setEveId(results.getInt("eve_id"));
 				event.setEveName(results.getString("eve_name"));
@@ -226,13 +285,15 @@ public class EventManager {
 				event.setEveLocation(results.getString("eve_location"));
 				event.setEveStartDate(dateTimeFormat.parse(results.getString("eve_start_date")));
 				event.setEveEndDate(dateTimeFormat.parse(results.getString("eve_end_date")));
+				event.setEveRegisterUser(results.getInt("eve_register_user"));
 				event.setEvePicturePath(results.getString("eve_picture_path"));
 				event.setEveStatus(results.getString("eve_status"));
 				event.setEveCreateDate(dateTimeFormat.parse(results.getString("eve_create_date")));
 				event.setEveUpdateDate(dateTimeFormat.parse(results.getString("eve_update_date")));
+				log.info("FOUND EVENT : "+event.getEveName());
 				
 			}
-			
+			log.info("END QUERY");
 			connection.close();
 			return event;
 			

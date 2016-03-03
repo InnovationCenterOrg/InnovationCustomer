@@ -5,6 +5,7 @@ import java.util.Date;
 public class ProfileUserModel {
 
 	private Integer proId;
+	private String proTitle;
 	private String proFirstName;
 	private String proLastName;
 	private String proFullName;
@@ -21,6 +22,12 @@ public class ProfileUserModel {
 	}
 	public void setProId(Integer proId) {
 		this.proId = proId;
+	}
+	public String getProTitle() {
+		return proTitle;
+	}
+	public void setProTitle(String proTitle) {
+		this.proTitle = proTitle;
 	}
 	public String getProFirstName() {
 		return proFirstName;

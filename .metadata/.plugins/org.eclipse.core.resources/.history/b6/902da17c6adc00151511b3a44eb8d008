@@ -1,0 +1,5 @@
+package com.ibm.innovationcustomer.sendgrid;
+
+public class SendGridException {
+
+}

@@ -1,15 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <section name="Workbench">
-	<item value="false" key="J2EE_EXPORT_OVERWRITE"/>
+	<item value="true" key="J2EE_EXPORT_OVERWRITE"/>
 	<item value="InnovationCustomerEAR" key="LASTEARNAME_"/>
 	<item value="false" key="J2EE_EXPORT_SOURCE"/>
 	<list key="J2EE_EXPORT_JST_EAR">
-		<item value="/Users/pannrays/Desktop/InnovationCustomerEAR_15_1.ear"/>
-		<item value="/Users/pannrays/Desktop/InnovationCustomerEAR_14_4.ear"/>
-		<item value="/Users/pannrays/Desktop/InnovationCustomerEAR_14_3.ear"/>
-		<item value="/Users/pannrays/Desktop/InnovationCustomerEAR_14_2.ear"/>
-		<item value="/Users/pannrays/Desktop/InnovationCustomerEAR_14_1.ear"/>
-		<item value="/Users/pannrays/Desktop/InnovationCustomerEAR_8_5.ear"/>
+		<item value="/Users/pannrays/IBM Project/WAR Folder/InnovationCustomerEAR.ear"/>
+		<item value="/Users/pannrays/Downloads/InnovationCustomerEAR.ear"/>
+		<item value="/Users/pannrays/IBM Project/WAR Folder/InnovationCustomerEAR_7_2.ear"/>
+		<item value="/Users/pannrays/IBM Project/WAR Folder/InnovationCustomerEAR_2.ear"/>
+		<item value="/Users/pannrays/IBM Project/WAR Folder/InnovationCustomerEAR_1.ear"/>
 	</list>
 	<list key="MRU_RUNTIME_STORE">
 		<item value="com.ibm.worklight"/>

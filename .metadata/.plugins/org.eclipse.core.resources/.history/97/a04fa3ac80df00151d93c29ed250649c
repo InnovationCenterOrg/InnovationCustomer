@@ -1,0 +1,115 @@
+<!DOCTYPE HTML>
+<%@page language="java"
+	contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<%@page import="java.text.SimpleDateFormat"%>
+<%@page import="com.ibm.innovationcustomer.model.EventModel"%>
+<%@page import="com.ibm.innovationcustomer.model.RegisterEventModel"%>
+<!-- Bootstrap -->
+<link href="${pageContext.request.contextPath}/css/default.css" rel="stylesheet">
+<link href="${pageContext.request.contextPath}/css/bootstrap.min.css" rel="stylesheet">
+<style>
+  /* Tooltip */
+  .test + .tooltip > .tooltip-inner {
+      background-color: #d9d9d9; 
+      color: #666666; 
+      border: 1px solid green; 
+      padding: 3%;
+      font-size: x-small;
+  }
+  /* Tooltip on top */
+  .test + .tooltip.top > .tooltip-arrow {
+      border-top: 5px solid green;
+  }
+  /* Tooltip on bottom */
+  .test + .tooltip.bottom > .tooltip-arrow {
+      border-bottom: 5px solid blue;
+  }
+  /* Tooltip on left */
+  .test + .tooltip.left > .tooltip-arrow {
+      border-left: 5px solid red;
+  }
+  /* Tooltip on right */
+  .test + .tooltip.right > .tooltip-arrow {
+      border-right: 5px solid black;
+  }
+</style>
+<title>IBM Innovation Center</title>
+</head>
+
+<body>
+	<div class="navbar navbar-static-top">
+   		<div class="container">
+   			<div align="left">
+   			<a href="ViewProfileInitAction">
+				<img style="margin-top: 2%;" align="left" class="img-responsive" src="logo-ibm-white.png" width="20%" height="20%"/>
+			</a>
+			</div>
+			<div align="right">
+			  	<a class="btn dropdown-toggle" data-toggle="dropdown" href="#">
+			    	<img style="margin-top: 5%" align="right" class="img-responsive" src="profile_icon_3.ico" width="15%" height="15%"/>
+			 	 </a>
+			  	<ul class="dropdown-menu  pull-right" role="menu">
+			    	<li style="background-color: #75c3f0"><a tabindex="-1" href="ViewProfileInitAction">Profile Setting</a></li>
+			    	<li style="background-color: #75c3f0"><a tabindex="-1" href="ChangePasswordInitAction">Change Password</a></li>
+				  	<li style="background-color: #75c3f0"><a tabindex="-1" href="LogoutAction">Logout</a></li>
+			  	</ul>
+			</div>
+		</div>
+	</div>		
+	
+	
+				<!-- 
+				<a class="dropdown" href="#"><img align="right" class="img-responsive" src="images/profile_icon_3.ico" width="8%" height="8%"/></a>
+				<ul class="dropdown-menu">
+				<li>TEST1</li>
+				<li>TEST2</li>
+				</ul>
+				 -->
+				<!-- 
+				<ul class="nav navbar-nav">
+				<li class="dropdown">
+					<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="true">Report
+					<span class="caret"></span>
+					</a>
+						<ul class="dropdown-menu" role="menu">
+							<li><a href="./DashboardMainAction">Dashboard</a></li>
+							<li><a href="./ReportMainAction">Report</a></li>
+						</ul></li></ul> -->
+			
+	<div class="container">
+	<h4 align="center">Welcome to IBM Innovation Center</h4>
+	Social business is a different way of working. It's about communicating in the open when it's appropriate to do so. It's about having all of your non-private conversations in the open where others can participate and provide their input and advice.
+	<br>
+	The tools in IBM Connections Cloud make it easy for you to collaborate with people inside and outside your organization. The following list contains some of the tools and applications that are available to you:
+	<h5>Event Information</h5>
+	<div align="center">
+		<font style="font-size: x-small;">
+			
+			<a class="test" data-placement="bottom" href="#" data-toggle="tooltip" title="Hooray!" >Forgot Password</a><br>
+			
+		</font>
+	</div>
+	
+	<span class="tooltip" onmouseover="tooltip.pop(this, 'Lorem ipsum dolor...mauris')">
+	    Basic
+	</span>
+		<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+		<script	src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+		<!-- Include all compiled plugins (below), or include individual files as needed -->
+		<script src="${pageContext.request.contextPath}/js/bootstrap.min.js"></script>
+		<script>
+		$(document).ready(function(){
+		    $('[data-toggle="tooltip"]').tooltip();   
+		});
+		</script>
+	</div>
+	
+	<img class="img-responsive" src="images/footer.png" width="100%">
+</body>
+</html>
+
+
+</html>

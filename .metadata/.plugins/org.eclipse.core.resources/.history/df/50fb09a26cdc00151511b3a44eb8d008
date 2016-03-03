@@ -1,0 +1,33 @@
+package com.ibm.innovationcustomer.manager;
+
+import java.util.logging.Logger;
+
+import com.ibm.innovationcustomer.sendgrid.SendGrid;
+import com.ibm.innovationcustomer.sendgrid.SendGridException;
+
+public class SendGridManager {
+	
+	private static final Logger log = Logger.getLogger(SendGridManager.class.getName());
+	public void sendMail(){
+		log.info("Start Send Email =1=");
+		
+		SendGrid sendgrid = new SendGrid("SendGrid-45");
+		log.info("Start Send Email =2=");
+		
+	    SendGrid.Email email = new SendGrid.Email();
+	    email.addTo("p.joyjung@gmail.com");
+	    email.setFrom("p.joyjung@gmail.com");
+	    email.setSubject("Hello World");
+	    email.setText("My first email with SendGrid Java!");
+
+	    try {
+	      SendGrid.Response response = sendgrid.send(email);
+	      log.info(response.getMessage());
+	    }
+	    catch (SendGridException e) {
+	    	log.info("[SendGridManager] Error : "+e.getMessage());
+	    }
+	  }
+
+	
+}

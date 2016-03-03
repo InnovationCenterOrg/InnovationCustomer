@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<section name="Workbench">
+	<section name="/InnovationCustomer">
+		<item value="html" key="IWebPageDataModelProperties.MARKUP_LANGUAGE"/>
+		<item value="UTF-8" key="IWebPageDataModelProperties.ENCODING"/>
+		<item value="false" key="IJSPWebPageDataModelProperties.XML_SYNTAX"/>
+		<section name="IWebPageDataModelProperties.DOCTYPE">
+			<item value="false" key="hasFrameset"/>
+			<item value="false" key="isXHTMLType"/>
+			<item value="HTML" key="name"/>
+			<item value="false" key="isDefaultWML"/>
+			<item value="" key="publicId"/>
+			<item value="false" key="isDefaultXHTML"/>
+			<item value="" key="nameSpaceURI"/>
+			<item value="" key="systemId"/>
+			<item value="HTML 5" key="displayName"/>
+			<item value="false" key="isWMLType"/>
+		</section>
+		<section name="IWebPageDataModelProperties.CONTENT_TYPE">
+			<item value="true" key="isDefault"/>
+			<item value="text/html" key="label"/>
+		</section>
+	</section>
+</section>

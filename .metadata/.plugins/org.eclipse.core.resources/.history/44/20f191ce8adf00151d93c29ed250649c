@@ -1,0 +1,40 @@
+package com.ibm.innovationcustomer.action;
+
+import java.io.IOException;
+import java.util.logging.Logger;
+
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import com.ibm.innovationcustomer.util.InnovationBaseAction;
+
+public class HomeInitAction extends InnovationBaseAction {
+
+	
+	
+	/**
+	 * 
+	 */
+	
+	private static final long serialVersionUID = -6057341003109240215L;
+	private static final Logger log = Logger.getLogger(ViewProfileInitAction.class.getName()); 
+
+	protected void doGet(HttpServletRequest request,
+			HttpServletResponse response) throws ServletException, IOException {
+		doPost(request,response);
+	}
+	
+	protected void doPost(HttpServletRequest request,
+			HttpServletResponse response) throws ServletException, IOException {
+		log.info("HomeInitAction TEST DOPOST");
+		try{
+			
+			String forwardUrl = "/view/home.jsp";
+			request.getRequestDispatcher(forwardUrl).forward(request, response);
+			
+		}catch(Exception e){
+			log.info("ERROR : "+e.getMessage());
+		}
+	}
+}

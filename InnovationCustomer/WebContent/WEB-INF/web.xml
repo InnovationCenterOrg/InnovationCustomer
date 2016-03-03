@@ -5,13 +5,111 @@
 	id="WebApp_ID" version="3.0">
 	<display-name>InnovationCustomer</display-name>
 	<servlet>
+		<servlet-name>InnovationBaseAction</servlet-name>
+		<servlet-class>com.ibm.innovationcustomer.util.InnovationBaseAction</servlet-class>
+	</servlet>
+	<servlet>
+		<servlet-name>LoginInitAction</servlet-name>
+		<servlet-class>com.ibm.innovationcustomer.action.LoginInitAction</servlet-class>
+	</servlet>
+	<servlet>
 		<servlet-name>LoginAction</servlet-name>
 		<servlet-class>com.ibm.innovationcustomer.action.LoginAction</servlet-class>
 	</servlet>
+	<servlet>
+		<servlet-name>HomeInitAction</servlet-name>
+		<servlet-class>com.ibm.innovationcustomer.action.HomeInitAction</servlet-class>
+	</servlet>
+	<servlet>
+		<servlet-name>RegisterInitAction</servlet-name>
+		<servlet-class>com.ibm.innovationcustomer.action.RegisterInitAction</servlet-class>
+	</servlet>
+	<servlet>
+		<servlet-name>RegisterAction</servlet-name>
+		<servlet-class>com.ibm.innovationcustomer.action.RegisterAction</servlet-class>
+	</servlet>
+	<servlet>
+		<servlet-name>GenerateLuckyNoAction</servlet-name>
+		<servlet-class>com.ibm.innovationcustomer.action.GenerateLuckyNoAction</servlet-class>
+	</servlet>
+	<servlet>
+		<servlet-name>LogoutAction</servlet-name>
+		<servlet-class>com.ibm.innovationcustomer.action.LogoutAction</servlet-class>
+	</servlet>
+	<servlet>
+		<servlet-name>ViewProfileInitAction</servlet-name>
+		<servlet-class>com.ibm.innovationcustomer.action.ViewProfileInitAction</servlet-class>
+	</servlet>
+	<servlet>
+		<servlet-name>EditProfileInitAction</servlet-name>
+		<servlet-class>com.ibm.innovationcustomer.action.EditProfileInitAction</servlet-class>
+	</servlet>
+	<servlet>
+		<servlet-name>SaveProfileAction</servlet-name>
+		<servlet-class>com.ibm.innovationcustomer.action.SaveProfileAction</servlet-class>
+	</servlet>
+	<servlet>
+		<servlet-name>ChangePasswordInitAction</servlet-name>
+		<servlet-class>com.ibm.innovationcustomer.action.ChangePasswordInitAction</servlet-class>
+	</servlet>
+	<servlet>
+		<servlet-name>SavePasswordAction</servlet-name>
+		<servlet-class>com.ibm.innovationcustomer.action.SavePasswordAction</servlet-class>
+	</servlet>
 	
+	
+	
+	<servlet-mapping>
+		<servlet-name>InnovationBaseAction</servlet-name>
+		<url-pattern>/InnovationBaseAction</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>LoginInitAction</servlet-name>
+		<url-pattern>/LoginInitAction</url-pattern>
+	</servlet-mapping>
 	<servlet-mapping>
 		<servlet-name>LoginAction</servlet-name>
 		<url-pattern>/LoginAction</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>HomeInitAction</servlet-name>
+		<url-pattern>/HomeInitAction</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>RegisterInitAction</servlet-name>
+		<url-pattern>/RegisterInitAction</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>RegisterAction</servlet-name>
+		<url-pattern>/RegisterAction</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>GenerateLuckyNoAction</servlet-name>
+		<url-pattern>/GenerateLuckyNoAction</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>LogoutAction</servlet-name>
+		<url-pattern>/LogoutAction</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>ViewProfileInitAction</servlet-name>
+		<url-pattern>/ViewProfileInitAction</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>EditProfileInitAction</servlet-name>
+		<url-pattern>/EditProfileInitAction</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>SaveProfileAction</servlet-name>
+		<url-pattern>/SaveProfileAction</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>ChangePasswordInitAction</servlet-name>
+		<url-pattern>/ChangePasswordInitAction</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>SavePasswordAction</servlet-name>
+		<url-pattern>/SavePasswordAction</url-pattern>
 	</servlet-mapping>
 	
 	<welcome-file-list>

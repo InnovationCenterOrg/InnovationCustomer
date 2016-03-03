@@ -1,0 +1,12 @@
+package com.ibm.innovationcustomer.sendgrid;
+
+public class SendGridException extends Exception {
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = -4936133599812014003L;
+
+	public SendGridException(Exception e) {
+        super(e);
+    }
+}

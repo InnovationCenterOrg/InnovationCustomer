@@ -1,0 +1,133 @@
+<!DOCTYPE HTML>
+
+<%@page language="java"
+	contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<%@page import="com.ibm.innovationcustomer.model.ProfileUserModel"%>
+<!-- Bootstrap -->
+<link href="${pageContext.request.contextPath}/css/default.css" rel="stylesheet">
+<link href="${pageContext.request.contextPath}/css/bootstrap.min.css" rel="stylesheet">
+
+<title>IBM Innovation Center</title>
+</head>
+<body>
+	<%ProfileUserModel currentUser = (ProfileUserModel) request.getSession().getAttribute("currentUser"); %>
+	<nav class="navbar navbar-default navbar-static-top">
+		<div class="container">
+			<div class="navbar-header">
+				
+				<img align="left" class="img-responsive" src="images/logo-ibm-white.png" width="20%" height="20%"/>
+				<a class="dropdown" href="#"><img align="right" class="img-responsive" src="images/profile_icon_3.ico" width="8%" height="8%"/></a>
+				<ul class="dropdown-menu">
+				<li>TEST1</li>
+				<li>TEST2</li>
+				</ul>
+				
+				<!-- 
+				<ul class="nav navbar-nav">
+				<li class="dropdown">
+					<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="true">Report
+					<span class="caret"></span>
+					</a>
+						<ul class="dropdown-menu" role="menu">
+							<li><a href="./DashboardMainAction">Dashboard</a></li>
+							<li><a href="./ReportMainAction">Report</a></li>
+						</ul></li></ul> -->
+			</div>
+		</div>
+	</nav>
+	<div class="container">
+		<%if(request.getAttribute("profileMessage") != null && !request.getAttribute("profileMessage").equals("")){ %>
+			<p style="background-color: #d1ebfa; font-size: x-small; height: 5%;" >
+				<img align="middle" class="img-responsive" src="images/information-icon.png" width="2%" height="2%">${profileMessage}
+			</p>
+		<%} %>
+		<h3>Profile Information</h3>
+		<table class="table table-condensed">
+		<tbody>
+			<tr>
+				<td width="15%">Title</td>
+				<td width="3%">:</td>
+				<td width="82%">
+					<div class="col-md-6"><%=currentUser.getProTitle() %></div>
+				</td>
+			</tr>
+			<tr>
+				<td width="15%">Firstname</td>
+				<td width="3%">:</td>
+				<td width="82%">
+					<div class="col-md-6"><%=currentUser.getProFirstName() %></div>
+				</td>
+			</tr>
+			<tr>
+				<td width="15%">Lastname</td>
+				<td width="3%">:</td>
+				<td width="82%">
+					<div class="col-md-6"><%=currentUser.getProLastName() %></div>
+				</td>
+			</tr>
+			<tr>
+				<td width="15%">Company</td>
+				<td width="3%">:</td>
+				<td width="82%">
+					<div class="col-md-6"><%=currentUser.getProCompanyName() %></div>
+				</td>
+			</tr>
+			<tr>
+				<td width="15%">Email</td>
+				<td width="3%">:</td>
+				<td width="82%">
+					<div class="col-md-6"><%=currentUser.getProEmail() %></div>
+				</td>
+			</tr>
+			<tr>
+				<td width="15%">Contact No.</td>
+				<td width="3%">:</td>
+				<td width="82%">
+					<div class="col-md-6"><%=currentUser.getProContactNo() %></div>
+				</td>
+			</tr>
+			<tr>
+				<td width="15%">Username</td>
+				<td width="3%">:</td>
+				<td width="82%">
+					<div class="col-md-6"><%=currentUser.getProUsername() %></div>
+				</td>
+			</tr>
+			<tr>
+				<td width="15%">Password</td>
+				<td width="3%">:</td>
+				<td width="82%">
+					<div class="col-md-6"><%=currentUser.getProPassword() %></div>
+				</td>
+			</tr>
+			</tbody>
+		</table>
+		<div class='col-md-2 text-center'>
+			<button id="editBtn" type="button" class="btn btn-primary btn-block">
+				<i class="glyphicon glyphicon-pencil"></i> Edit Profile
+			</button>
+			<button id="backBtn" type="button" class="btn btn-primary btn-block">
+				<i class="glyphicon glyphicon-arrow-left"></i> Back
+			</button>
+		</div>
+	</div>
+	
+	<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+	<script	src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+	<!-- Include all compiled plugins (below), or include individual files as needed -->
+	<script src="${pageContext.request.contextPath}/js/bootstrap.min.js"></script>
+	
+	<script type="text/javascript">
+		document.getElementById('editBtn').onclick = function() {
+			document.location.href = '${pageContext.request.contextPath}/EditProfileInitAction';
+		}
+		
+		document.getElementById('backBtn').onclick = function(){
+			document.location.href = '${pageContext.request.contextPath}/HomeInitAction';
+		}
+	</script>
+</body>
+</html>

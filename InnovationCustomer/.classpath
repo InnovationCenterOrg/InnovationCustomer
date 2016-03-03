@@ -19,5 +19,6 @@
 	<classpathentry kind="con" path="org.eclipse.jst.j2ee.internal.web.container"/>
 	<classpathentry kind="con" path="org.eclipse.jst.j2ee.internal.module.container"/>
 	<classpathentry exported="true" kind="lib" path="/Users/pannrays/Downloads/javax.ejb-3.1.jar"/>
+	<classpathentry exported="true" kind="lib" path="/Users/pannrays/Downloads/sendgrid-java.jar"/>
 	<classpathentry kind="output" path="WebContent/WEB-INF/classes"/>
 </classpath>

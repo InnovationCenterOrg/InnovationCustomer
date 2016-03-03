@@ -1,21 +1,24 @@
 package com.ibm.innovationcustomer.action;
 
-import java.io.Console;
 import java.io.IOException;
-import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import javax.annotation.Resource;
 import javax.ejb.EJB;
 import javax.servlet.ServletException;
-import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import javax.sql.DataSource;
 
+import com.ibm.innovationcustomer.constants.CommonConstants;
+import com.ibm.innovationcustomer.manager.EventManager;
 import com.ibm.innovationcustomer.manager.ProfileUserManager;
+import com.ibm.innovationcustomer.manager.RegisterEventManager;
+import com.ibm.innovationcustomer.model.EventModel;
 import com.ibm.innovationcustomer.model.ProfileUserModel;
+import com.ibm.innovationcustomer.model.RegisterEventModel;
 
 
 public class LoginAction extends HttpServlet {
@@ -30,6 +33,11 @@ public class LoginAction extends HttpServlet {
 	
 	@EJB
 	private ProfileUserManager profileUserManager;
+	@EJB
+	private EventManager eventManager;
+	@EJB
+	private RegisterEventManager registerEventManager;
+	
 	
 	private static final Logger log = Logger.getLogger(LoginAction.class.getName()); 
 
@@ -42,25 +50,95 @@ public class LoginAction extends HttpServlet {
 	
 	protected void doPost(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
-		log.info("TEST DOPOST");
-		ProfileUserModel currentUser = null;
+		//Perform 3 steps
+		//1) Get the event from id (in url)
+		//2) Authentication and get the currentuser
+		//3) Create the register event + Update Event Register User
 		
-		String tmp = profileUserManager.updateProfileUserById(1, "Pannray", "Samanphanchai", "Pannray Samanphanchai", "IBMSD", "0867059235", "p.joyjung@gmail.com", "pannrays", "P@ssw0rd");
-		ProfileUserModel user = profileUserManager.getProfileUserById(1);
-		if(user != null){
-			log.info("FOUND USER");
-			log.info("FULLNAME : "+user.getProFullName());
-			log.info("COMPANY NAME : "+user.getProCompanyName());
+		String eveId = request.getParameter("eveId");
+		String userId = request.getParameter("userId");
+		String password = request.getParameter("password");
+		String forwardUrl = "";
+		String message = "";
+		log.info("EVENT ID: "+eveId);
+		log.info("USERNAME: "+userId);
+		log.info("CAST EVENT ID : "+eveId);
+		EventModel event = null;
+		//1
+		try{
+			event = eventManager.getEventById(Integer.parseInt(eveId));
+		}catch(Exception e){
+			//FAIL
+			log.info("[LoginAction]  FAIL TO GET THE EVEN : "+e.getMessage());
+			message = "Cannot found the event for registration. Please contact the staff.";
+			request.setAttribute("message", message);
+			forwardUrl = "/login.jsp";
+			request.getRequestDispatcher(forwardUrl).forward(request, response);
 		}
-		log.info("RESULT DUPLICATE : "+profileUserManager.isDuplicateUsername("pannrays"));
 		
-		//		String tmp = profileUserManager.createNewProfileUser("Pannray", "Samanphanchai", "Pannray Samanphanchai", "IBMSD", "0867059235", "p.joyjung@gmail.com", "pannrays", "P@ssw0rd", "Customer");
-		String forwardUrl = "/home.jsp";
-//		if(currentUser != null){
-//			forwardUrl = "/home.jsp?test="+currentUser.getProFullName();
-//		}
-
-		request.getRequestDispatcher(forwardUrl).forward(request, response);
+		//2
+		ProfileUserModel currentUser = profileUserManager.authen(userId, password);
+		try{
+			log.info("[LoginAction] FOUND USER: "+currentUser.getProFullName());
+			try{
+				log.info("[LoginAction] FOUND EVENT : "+event.getEveName());
+				
+				//Check Duplicate
+				RegisterEventModel regEve = null;
+				regEve = registerEventManager.getRegisterEventByEveIdProId(event.getEveId(), currentUser.getProId());
+				try{
+					//Already create (skip)
+					HttpSession session = request.getSession();
+					session.setAttribute("registerEvent", regEve);
+					session.setAttribute("currentUser", currentUser);
+					session.setAttribute("event", event);
+					log.info("[LoginAction] Lucky No. for "+currentUser.getProFullName()+" >> "+regEve.getReeLuckyNo());
+					forwardUrl = "/view/home.jsp";
+					request.getRequestDispatcher(forwardUrl).forward(request, response);
+					
+				}catch(NullPointerException e){
+					//Need to create new Register Event
+					//3
+					String createReeResult = registerEventManager.createNewRegisterEvent(event.getEveId(), currentUser.getProId());
+					if(createReeResult.equals(CommonConstants.RETURN_SUCCESS)){
+						log.info("[LoginAction] CREATED REGISTER EVENT SUCCESS");
+						regEve = registerEventManager.getRegisterEventByEveIdProId(event.getEveId(), currentUser.getProId());
+						HttpSession session = request.getSession();
+						session.setAttribute("registerEvent", regEve);
+						session.setAttribute("currentUser", currentUser);
+						session.setAttribute("event", event);
+						forwardUrl = "/view/home.jsp";
+						request.getRequestDispatcher(forwardUrl).forward(request, response);
+						
+					}else{
+						//FAIL
+						log.info("[LoginAction] FAIL TO CREATE REGISTER EVENT");
+						message = "Cannot register this profile into this event.";
+						request.setAttribute("message", message);
+						forwardUrl = "/login.jsp";
+						request.getRequestDispatcher(forwardUrl).forward(request, response);
+						
+					}
+					
+				}
+				
+			}catch(NullPointerException e){
+				log.info("[LoginAction] NOT FOUND EVENT");
+				message = "Event not found.";
+				request.setAttribute("message", message);
+				forwardUrl = "/login.jsp";
+				request.getRequestDispatcher(forwardUrl).forward(request,response);
+			}
+			
+		}catch(NullPointerException e){
+			log.info("[LoginAction] NOT FOUND USER");
+			message = "Login failed. Please try again.";
+			request.setAttribute("message", message);
+			forwardUrl = "/login.jsp";
+			request.getRequestDispatcher(forwardUrl).forward(request, response);
+			
+		}
+		
 	}
 		
 }

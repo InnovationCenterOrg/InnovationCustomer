@@ -41,37 +41,69 @@ public class RegisterEventManager {
 		String sql = "insert into register_event (ree_eve_id, ree_pro_id, ree_lucky_no, ree_got_prize_flag, ree_register_date, ree_create_date, ree_update_date) values (?,?,?,?,?,?,?) ";
 		Date currentDateTime = new Date();
 		try{
+
 			connection = ds.getConnection();
 			pstmt = connection.prepareStatement(sql);
 			pstmt.setInt(1, reeEveId);
 			pstmt.setInt(2, reeProId);
 			pstmt.setInt(3, CommonConstants.DEFAULT_INT_VALUE); //First time create registerevent, not generate lucky no. --> set to 0
-			pstmt.setString(4, CommonConstants.FLAG_N);
-			pstmt.setString(5, dateTimeFormat.format(currentDateTime));
+			pstmt.setString(4, CommonConstants.FLAG_W);
+			pstmt.setString(5, dateFormat.format(currentDateTime));
 			pstmt.setString(6, dateTimeFormat.format(currentDateTime));
 			pstmt.setString(7, dateTimeFormat.format(currentDateTime));
-			
+
 			int result = pstmt.executeUpdate();
-			connection.close();
-			
 			if(result > 0){
-				return CommonConstants.RETURN_SUCCESS;
+				//Update Number of Register User
+				//Get Current Register User
+				String queryCurrentRegisterUser = "select eve_register_user from event where eve_id = ? ";
+				Integer registerUser = 0;
+				PreparedStatement pstmt2 = connection.prepareStatement(queryCurrentRegisterUser);
+				pstmt2.setInt(1, reeEveId.intValue());
+				ResultSet rs = pstmt2.executeQuery();
+				while(rs.next()){
+					registerUser = rs.getInt("eve_register_user");
+				}
+				
+				
+				//Update Number of Register User
+				String updateSql = "update event set eve_register_user = ? where eve_id = ? ";
+				registerUser = registerUser+1;
+				try{
+					connection = ds.getConnection();
+					PreparedStatement pstmt3 = connection.prepareStatement(updateSql);
+					pstmt3.setInt(1, registerUser);
+					pstmt3.setInt(2, reeEveId);
+					
+					int resultUpdateRegisterUser = pstmt3.executeUpdate();
+					connection.close();
+					
+					if(resultUpdateRegisterUser > 0){
+						//Update Success
+						return CommonConstants.RETURN_SUCCESS;
+					}else{
+						throw new Exception();
+					}
+				}catch(Exception e0){
+					connection.rollback();
+					connection.close();
+				}
+
+				return CommonConstants.RETURN_FAIL;
 			}
-			
 			
 		}catch(SQLException e1){
 			log.info("SQL ERROR : "+e1.getMessage());
 		}catch(Exception e2){
 			log.info("ERROR : "+e2.getMessage());
 		}
-		
 		return CommonConstants.RETURN_FAIL;
 	}
 	
 	
 	//Update
 	public String updateRegisterEventLuckyNo(Integer reeId, int luckyno){
-		String sql = "update register_event set ree_lucky_no=?, set ree_update_date=? where ree_id = ? ";
+		String sql = "update register_event set ree_lucky_no=?, ree_update_date=? where ree_id = ? ";
 		try{
 			connection = ds.getConnection();
 			pstmt = connection.prepareStatement(sql);
@@ -100,7 +132,7 @@ public class RegisterEventManager {
 	public boolean isDuplicateLuckyNo(Integer reeEveId, int luckyNo){
 		
 		String sql = "select * from register_event where ree_eve_id = ? and ree_lucky_no = ? ";
-		boolean result = true;
+		boolean result = false;
 		try{
 			
 			connection = ds.getConnection();
@@ -132,6 +164,71 @@ public class RegisterEventManager {
 		int n = 100 + random.nextInt(900); //Generate 3 random digits
 		
 		return n;
+	}
+	
+	
+	public RegisterEventModel getRegisterEventByEveIdProId(Integer eveId, Integer proId){
+		String sql = "select * from register_event where ree_eve_id = ? and ree_pro_id = ? ";
+		RegisterEventModel result = null;
+		try{
+			connection = ds.getConnection();
+			pstmt = connection.prepareStatement(sql);
+			pstmt.setInt(1, eveId.intValue());
+			pstmt.setInt(2, proId.intValue());
+			
+			ResultSet rs = pstmt.executeQuery();
+			while(rs.next()){
+				result = new RegisterEventModel();
+				result.setReeId(rs.getInt("ree_id"));
+				result.setReeEveId(rs.getInt("ree_eve_id"));
+				result.setReeProId(rs.getInt("ree_pro_id"));
+				result.setReeLuckyNo(rs.getInt("ree_lucky_no"));
+				result.setReeGotPrizeFlag(rs.getString("ree_got_prize_flag"));
+				
+			}
+			
+			connection.close();
+			return result;
+			
+		}catch(SQLException e1){
+			log.info("SQL ERROR : "+e1.getMessage());
+		}catch(Exception e2){
+			log.info("ERROR : "+e2.getMessage());
+		}
+		return result;
+		
+		
+	}
+	
+	public RegisterEventModel getRegisterEventById(Integer reeId){
+		String sql = "select * from register_event where ree_id = ? ";
+		RegisterEventModel result = null;
+		try{
+			connection = ds.getConnection();
+			pstmt = connection.prepareStatement(sql);
+			pstmt.setInt(1, reeId.intValue());
+			
+			ResultSet rs = pstmt.executeQuery();
+			while(rs.next()){
+				result = new RegisterEventModel();
+				result.setReeId(rs.getInt("ree_id"));
+				result.setReeEveId(rs.getInt("ree_eve_id"));
+				result.setReeProId(rs.getInt("ree_pro_id"));
+				result.setReeLuckyNo(rs.getInt("ree_lucky_no"));
+				result.setReeGotPrizeFlag(rs.getString("ree_got_prize_flag"));
+				
+			}
+			
+			connection.close();
+			return result;
+			
+		}catch(SQLException e1){
+			log.info("SQL ERROR : "+e1.getMessage());
+		}catch(Exception e2){
+			log.info("ERROR : "+e2.getMessage());
+		}
+		return result;
+		
 	}
 
 //	public List<RegisterEventModel> getListByEveId(Integer eveId){

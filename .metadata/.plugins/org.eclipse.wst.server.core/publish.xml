@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <publish-info>
+  <server id="WebSphere Application Server Liberty Profile at localhost" path="publish1.dat"/>
   <server id="com.ibm.worklight.server.id" path="publish0.dat"/>
 </publish-info>

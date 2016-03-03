@@ -10,11 +10,11 @@ public class EventModel {
 	private String eveLocation;
 	private Date eveStartDate;
 	private Date eveEndDate;
+	private Integer eveRegisterUser;
 	private String evePicturePath;
 	private String eveStatus;
 	private Date eveCreateDate;
 	private Date eveUpdateDate;
-	
 	
 	public Integer getEveId() {
 		return eveId;
@@ -51,6 +51,12 @@ public class EventModel {
 	}
 	public void setEveEndDate(Date eveEndDate) {
 		this.eveEndDate = eveEndDate;
+	}
+	public Integer getEveRegisterUser() {
+		return eveRegisterUser;
+	}
+	public void setEveRegisterUser(Integer eveRegisterUser) {
+		this.eveRegisterUser = eveRegisterUser;
 	}
 	public String getEvePicturePath() {
 		return evePicturePath;
