@@ -4,6 +4,7 @@
 	<item value="InnovationCustomerEAR" key="LASTEARNAME_"/>
 	<item value="false" key="J2EE_EXPORT_SOURCE"/>
 	<list key="J2EE_EXPORT_JST_EAR">
+		<item value="/Users/pannrays/IBM Project/WAR Folder/InnovationCustomerEAR_Dash.ear"/>
 		<item value="/Users/pannrays/IBM Project/WAR Folder/InnovationCustomerEAR.ear"/>
 		<item value="/Users/pannrays/Downloads/InnovationCustomerEAR.ear"/>
 		<item value="/Users/pannrays/IBM Project/WAR Folder/InnovationCustomerEAR_7_2.ear"/>

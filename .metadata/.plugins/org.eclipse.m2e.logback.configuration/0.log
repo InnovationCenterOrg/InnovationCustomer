@@ -90,3 +90,18 @@
 2016-03-01 14:20:36,736 [Worker-11] INFO  org.eclipse.jetty.server.Server - jetty-8.1.16.v20140903
 2016-03-01 14:20:36,738 [Worker-11] INFO  o.e.jetty.server.AbstractConnector - Started SelectChannelConnector@0.0.0.0:62308
 2016-03-03 11:49:13,577 [Stop Help Server] INFO  o.e.j.server.handler.ContextHandler - stopped o.e.j.s.ServletContextHandler{/help,null}
+2016-05-16 15:06:05,001 [Worker-5] INFO  org.eclipse.jetty.server.Server - jetty-8.1.16.v20140903
+2016-05-16 15:06:05,088 [Worker-5] INFO  o.e.jetty.server.AbstractConnector - Started SelectChannelConnector@0.0.0.0:57210
+2016-05-16 15:06:17,871 [Start Help Server] INFO  org.eclipse.jetty.server.Server - jetty-8.1.16.v20140903
+2016-05-16 15:06:17,882 [Start Help Server] INFO  o.e.jetty.server.AbstractConnector - Started SelectChannelConnector@127.0.0.1:57211
+2016-05-16 15:07:34,344 [Stop Help Server] INFO  o.e.j.server.handler.ContextHandler - stopped o.e.j.s.ServletContextHandler{/help,null}
+2016-05-16 15:08:34,886 [Worker-3] INFO  org.eclipse.jetty.server.Server - jetty-8.1.16.v20140903
+2016-05-16 15:08:34,952 [Worker-3] INFO  o.e.jetty.server.AbstractConnector - Started SelectChannelConnector@0.0.0.0:57217
+2016-05-16 15:08:43,751 [Start Help Server] INFO  org.eclipse.jetty.server.Server - jetty-8.1.16.v20140903
+2016-05-16 15:08:43,761 [Start Help Server] INFO  o.e.jetty.server.AbstractConnector - Started SelectChannelConnector@127.0.0.1:57218
+2016-05-16 15:25:20,311 [Stop Help Server] INFO  o.e.j.server.handler.ContextHandler - stopped o.e.j.s.ServletContextHandler{/help,null}
+2016-05-16 16:21:28,887 [Start Help Server] INFO  org.eclipse.jetty.server.Server - jetty-8.1.16.v20140903
+2016-05-16 16:21:28,941 [Start Help Server] INFO  o.e.jetty.server.AbstractConnector - Started SelectChannelConnector@127.0.0.1:58216
+2016-05-16 16:22:18,000 [Stop Help Server] INFO  o.e.j.server.handler.ContextHandler - stopped o.e.j.s.ServletContextHandler{/help,null}
+2016-06-02 11:20:59,325 [Start Help Server] INFO  org.eclipse.jetty.server.Server - jetty-8.1.16.v20140903
+2016-06-02 11:20:59,365 [Start Help Server] INFO  o.e.jetty.server.AbstractConnector - Started SelectChannelConnector@127.0.0.1:50918

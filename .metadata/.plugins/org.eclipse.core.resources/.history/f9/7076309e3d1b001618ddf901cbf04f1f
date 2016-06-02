@@ -22,7 +22,7 @@ public class ProfileUserManager {
 
 	private static final Logger log = Logger.getLogger(ProfileUserManager.class.getName()); 
 	
-	@Resource(lookup = "jdbc/dashDB-mf")
+	@Resource(lookup = "jdbc/InnovationDatabase")
 	DataSource ds;
 
 	Connection connection = null;
